@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TFKBCase</string>
+    <string name="Search">Search</string>
+    <string name="error_text">İçerik Bulunamadı</string>
+    <string name="emtpy_text">Henüz Bir İçerik Aratılmadı.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title"><b>Title: </b></string>
+    <string name="author"><b>Author: </b></string>
+</resources>
