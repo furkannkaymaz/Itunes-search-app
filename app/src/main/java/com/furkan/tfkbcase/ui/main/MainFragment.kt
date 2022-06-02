@@ -1,7 +1,6 @@
 package com.furkan.tfkbcase.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.MainFragmentBinding
 import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.custom_topcontent.*
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<MainFragmentBinding>() {
@@ -25,8 +25,8 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
     private var isLoading = false
     private var texted = ""
     private var fromAdapter = false
-    var productList: ArrayList<Result?>? = arrayListOf()
-    lateinit var adapter: MainAdapter
+    private var productList: ArrayList<Result?>? = arrayListOf()
+    private lateinit var adapter: MainAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +37,16 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         pagingRecyclerView()
         observeData()
         search()
-            }
+        configureTopMenu()
+
+    }
+
+    private fun configureTopMenu() {
+
+        binding?.contentTop?.setText(getString(R.string.musicList), requireActivity())
+        binding?.contentTop?.backButtonVisible(false,requireActivity())
+
+    }
 
     private fun pagingRecyclerView() {
         binding?.rycView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -49,7 +58,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
                         fromAdapter = true
                         isLoading = true
                         start += 10
-                        Log.d("startttttttt", start.toString())
                         viewModel.getData(texted, start, 10)
                     }
                 }
@@ -73,7 +81,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         binding?.error?.visibility = View.INVISIBLE
         binding?.rycView?.visibility = View.VISIBLE
 
-        if (fromAdapter == true) {
+        if (fromAdapter) {
             adapter.set(data as List<Result>)
             adapter.notifyDataSetChanged()
         } else {
@@ -121,14 +129,12 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         val bundle = Bundle()
         bundle.putSerializable("data", data)
         navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
-
     }
 
     private fun sendAdapterData() {
         adapter = MainAdapter {
             goDetailPage(it)
         }
-
     }
 
 }

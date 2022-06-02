@@ -12,10 +12,11 @@
         android:id="@+id/image"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_100sdp"/>
-
-
     <TextView
         android:id="@+id/title"
+        android:layout_gravity="center"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

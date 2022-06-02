@@ -1,0 +1,29 @@
+<resources>
+
+    <attr name="hint" format="string"/>
+
+    <declare-styleable name="CustomTextInputLaout">
+        <attr name="inputType" format="enum">
+            <enum name="text" value="1"/>
+            <enum name="password" value="2"/>
+            <enum name="phone" value="3"/>
+            <enum name="email" value="4"/>
+            <enum name="date" value="5"/>
+        </attr>
+
+        <attr name="hint"/>
+        <attr name="Bgcolor" format="color"/>
+        <attr name="maxLength" format="integer"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="CustomMultiSelect">
+        <attr name="hintText" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomAddButton">
+        <attr name="hint"/>
+    </declare-styleable>
+
+
+</resources>

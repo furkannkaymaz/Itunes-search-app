@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.furkan.tfkbcase.base.BaseAdapter
 import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.ItemSongBinding
-import com.furkan.tfkbcase.utils.loadImage
+import com.furkan.tfkbcase.utils.extension.loadImage
 
 class MainAdapter( val itemClick: ((Result) -> Unit)?) : BaseAdapter<Result, MainAdapter.ViewHolder>() {
 

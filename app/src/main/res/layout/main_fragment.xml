@@ -8,11 +8,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
 
+    <com.furkan.tfkbcase.custom_layouts.CustomAddTopContent
+        android:id="@+id/contentTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <com.furkan.tfkbcase.custom_layouts.SearchBar
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/contentTop" />
 
 
     <androidx.recyclerview.widget.RecyclerView

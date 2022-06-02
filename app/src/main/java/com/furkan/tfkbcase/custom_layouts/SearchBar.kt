@@ -7,12 +7,8 @@ import com.furkan.tfkbcase.base.BaseLinearLayout
 import com.furkan.tfkbcase.utils.Callback
 import com.furkan.tfkbcase.databinding.CustomSearchBinding
 
-
 class SearchBar(context: Context, attrs: AttributeSet? = null) :
     BaseLinearLayout<CustomSearchBinding>(context, attrs) {
-
-    var callbackOnTextChange: Callback<String>? = null
-
 
     override fun createView(inflater: LayoutInflater): CustomSearchBinding {
         return CustomSearchBinding.inflate(inflater, this, true)
@@ -22,12 +18,8 @@ class SearchBar(context: Context, attrs: AttributeSet? = null) :
 
         binding.ivClose.setOnClickListener {
             binding.editTextSearch.text = null
-            callbackOnTextChange?.invoke("")
-        }
-    }
 
-    fun clearText(){
-        binding.editTextSearch.setText("")
+        }
     }
 
 }
