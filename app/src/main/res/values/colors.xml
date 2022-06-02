@@ -12,4 +12,6 @@
     <color name="etBgLogin">#939191</color>
     <color name="red">#FF0808</color>
     <color name="app_blue">#4D62C5</color>
+    <color name="appBlue">#3F51B5</color>
+    <color name="dialogBg">#F6F6F6</color>
 </resources>

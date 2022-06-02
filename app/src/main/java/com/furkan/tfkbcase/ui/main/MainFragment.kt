@@ -1,5 +1,6 @@
 package com.furkan.tfkbcase.ui.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,7 @@ import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.MainFragmentBinding
 import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.custom_topcontent.*
+
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<MainFragmentBinding>() {
@@ -59,6 +60,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
                         isLoading = true
                         start += 10
                         viewModel.getData(texted, start, 10)
+                        binding?.progress?.visibility = View.VISIBLE
                     }
                 }
             }
@@ -76,16 +78,17 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         binding?.rycView?.adapter = adapter
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun bindRecyclerViewData(data: ArrayList<Result?>?) {
         binding?.progress?.visibility = View.INVISIBLE
         binding?.error?.visibility = View.INVISIBLE
         binding?.rycView?.visibility = View.VISIBLE
-
+        
         if (fromAdapter) {
-            adapter.set(data as List<Result>)
+            adapter.set(data)
             adapter.notifyDataSetChanged()
         } else {
-            adapter.set(data as List<Result>)
+            adapter.set(data)
             adapter.notifyDataSetChanged()
         }
     }
@@ -110,10 +113,13 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     private fun observeData() {
         viewModel.getData.observe(viewLifecycleOwner, {
-            productList?.clear()
-            productList?.addAll(it?.data?.results!!)
-            bindRecyclerViewData(productList)
-            isLoading = false
+                binding?.progress?.visibility = View.GONE
+                productList?.clear()
+                productList?.addAll(it?.data?.results!!)
+                bindRecyclerViewData(productList)
+                isLoading = false
+
+
         })
     }
 

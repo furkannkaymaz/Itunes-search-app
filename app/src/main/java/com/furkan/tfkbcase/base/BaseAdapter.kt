@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<Object, ViewHolder : RecyclerView.ViewHolder> : RecyclerView.Adapter<ViewHolder>() {
 
-    private var items: List<Object>? = null
+    private var items: ArrayList<Object?>? = null
     private var recyclerView: RecyclerView? = null
 
     open fun configureItemSize(holder: ViewHolder, position: Int, item: Object) {}
@@ -30,14 +30,14 @@ abstract class BaseAdapter<Object, ViewHolder : RecyclerView.ViewHolder> : Recyc
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun set(items: List<Object>?) {
+    fun set(items: ArrayList<Object?>?) {
         this.items = items
         this.notifyDataSetChanged()
     }
 
     @SuppressLint("NotifyDataSetChanged")
     fun clear() {
-        this.items = emptyList()
+        this.items = arrayListOf()
         this.notifyDataSetChanged()
     }
 }
