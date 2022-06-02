@@ -8,22 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.furkan.tfkbcase.R
+import com.furkan.tfkbcase.base.BaseFragment
 import com.furkan.tfkbcase.data.model.Result
+import com.furkan.tfkbcase.databinding.DetailFragmentBinding
+import com.furkan.tfkbcase.databinding.MainFragmentBinding
 
-class DetailFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = DetailFragment()
-    }
-
-    private lateinit var viewModel: DetailViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.detail_fragment, container, false)
-    }
+class DetailFragment : BaseFragment<DetailFragmentBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,6 +22,13 @@ class DetailFragment : Fragment() {
         Log.d("deneme",data.artistName.toString())
 
 
+    }
+
+    override fun layoutResource(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): DetailFragmentBinding {
+        return DetailFragmentBinding.inflate(inflater, container, false)
     }
 
 }

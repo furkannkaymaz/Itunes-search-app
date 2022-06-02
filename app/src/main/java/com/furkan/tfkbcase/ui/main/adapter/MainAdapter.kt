@@ -1,35 +1,38 @@
 package com.furkan.tfkbcase.ui.main.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.furkan.tfkbcase.base.BaseAdapter
 import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.ItemSongBinding
 import com.furkan.tfkbcase.utils.loadImage
 
-class MainAdapter(var data: ArrayList<Result?>?) : RecyclerView.Adapter<MainAdapter.MainHolder>() {
+class MainAdapter( val itemClick: ((Result) -> Unit)?) : BaseAdapter<Result, MainAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val itemBinding = ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MainHolder(itemBinding)
-    }
+    override fun bindView(holder: ViewHolder, position: Int, item: Result) {
 
-    override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val paymentBean: Result = data?.get(position)!!
-        holder.bind(paymentBean)
-    }
+        holder.binding.title.text = item.trackName
+        item.artworkUrl100?.let { holder.binding.image.loadImage(it) }
 
-    fun updateData(item: ArrayList<Result?>?) {
-        data?.addAll(item!!)
-        notifyDataSetChanged()
-    }
+        holder.binding.container.setOnClickListener {
 
-    override fun getItemCount(): Int = data!!.size
-
-    class MainHolder(private val itemBinding: ItemSongBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(paymentBean: Result) {
-            itemBinding.title.text = paymentBean.trackName
-            paymentBean.artworkUrl100?.let { itemBinding.image.loadImage(it) }
+            itemClick?.let { it1 -> it1(item) }
         }
+
     }
+
+    override fun createView(
+        context: Context,
+        parent: ViewGroup,
+        inflater: LayoutInflater,
+        viewType: Int
+    ): ViewHolder {
+        return ViewHolder(ItemSongBinding.inflate(inflater, parent, false))
+    }
+
+    class ViewHolder(val binding: ItemSongBinding) :
+        RecyclerView.ViewHolder(binding.root)
+
 }

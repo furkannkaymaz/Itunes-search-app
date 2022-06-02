@@ -14,7 +14,7 @@ import com.furkan.tfkbcase.R
 import com.furkan.tfkbcase.base.BaseFragment
 import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.MainFragmentBinding
-import com.furkan.tfkbcase.ui.main.adapter.MainAdapter2
+import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,29 +26,20 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
     private var texted = ""
     private var fromAdapter = false
     var productList: ArrayList<Result?>? = arrayListOf()
-    lateinit var adapter: MainAdapter2
+    lateinit var adapter: MainAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        adapter = MainAdapter2 {
-            goDetailPage(it)
-        }
-
-        binding?.rycView?.layoutManager = GridLayoutManager(
-            requireContext(),
-            2,
-            RecyclerView.VERTICAL,
-            false
-        )
-
-        binding?.rycView?.adapter = adapter
-
+        sendAdapterData()
+        configureUiItems()
+        pagingRecyclerView()
         observeData()
         search()
+            }
 
-
+    private fun pagingRecyclerView() {
         binding?.rycView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
@@ -66,7 +57,18 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         })
     }
 
-    private fun bindRecylerViewData(data: ArrayList<Result?>?) {
+    private fun configureUiItems() {
+        binding?.rycView?.layoutManager = GridLayoutManager(
+            requireContext(),
+            2,
+            RecyclerView.VERTICAL,
+            false
+        )
+
+        binding?.rycView?.adapter = adapter
+    }
+
+    private fun bindRecyclerViewData(data: ArrayList<Result?>?) {
         binding?.progress?.visibility = View.INVISIBLE
         binding?.error?.visibility = View.INVISIBLE
         binding?.rycView?.visibility = View.VISIBLE
@@ -102,11 +104,10 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         viewModel.getData.observe(viewLifecycleOwner, {
             productList?.clear()
             productList?.addAll(it?.data?.results!!)
-            bindRecylerViewData(productList)
+            bindRecyclerViewData(productList)
             isLoading = false
         })
     }
-
 
     override fun layoutResource(
         inflater: LayoutInflater,
@@ -115,7 +116,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         return MainFragmentBinding.inflate(inflater, container, false)
     }
 
-    fun goDetailPage(data: Result) {
+    private fun goDetailPage(data: Result) {
         val navController = findNavController(requireActivity(), R.id.main)
         val bundle = Bundle()
         bundle.putSerializable("data", data)
@@ -123,5 +124,11 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     }
 
+    private fun sendAdapterData() {
+        adapter = MainAdapter {
+            goDetailPage(it)
+        }
+
+    }
 
 }
