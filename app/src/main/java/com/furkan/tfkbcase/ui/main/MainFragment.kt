@@ -17,15 +17,13 @@ import com.furkan.tfkbcase.databinding.MainFragmentBinding
 import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     private lateinit var viewModel: MainViewModel
-    private var start = 1
+    private var start = 0
     private var isLoading = false
     private var texted = ""
-    private var fromAdapter = false
     private var productList: ArrayList<Result?>? = arrayListOf()
     private lateinit var adapter: MainAdapter
 
@@ -56,7 +54,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
                 if (!recyclerView.canScrollVertically(1)) {
                     if (!isLoading) {
-                        fromAdapter = true
                         isLoading = false
                         start += 10
                         viewModel.getData(texted, start, 10)
@@ -93,7 +90,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         binding?.searchBar?.binding?.editTextSearch?.addTextChangedListener { text ->
             texted = text.toString()
             binding?.progress?.visibility = View.VISIBLE
-            fromAdapter = false
             productList?.clear()
             start = 0
             if (text?.isEmpty() == true) {
@@ -110,7 +106,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
     private fun observeData() {
         viewModel.getData.observe(viewLifecycleOwner, {
                 binding?.progress?.visibility = View.GONE
-            
                 it?.data?.results?.let { it1 -> productList?.addAll(it1) }
                 bindRecyclerViewData(productList)
                 isLoading = false
