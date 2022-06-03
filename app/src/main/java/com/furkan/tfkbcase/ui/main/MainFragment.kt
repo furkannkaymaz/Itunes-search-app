@@ -44,7 +44,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     private fun configureTopMenu() {
 
-        binding?.contentTop?.setText(getString(R.string.musicList), requireActivity())
+        binding?.contentTop?.setText(getString(R.string.musicList))
         binding?.contentTop?.backButtonVisible(false,requireActivity())
 
     }
@@ -57,7 +57,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
                 if (!recyclerView.canScrollVertically(1)) {
                     if (!isLoading) {
                         fromAdapter = true
-                        isLoading = true
+                        isLoading = false
                         start += 10
                         viewModel.getData(texted, start, 10)
                         binding?.progress?.visibility = View.VISIBLE
@@ -83,14 +83,10 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         binding?.progress?.visibility = View.INVISIBLE
         binding?.error?.visibility = View.INVISIBLE
         binding?.rycView?.visibility = View.VISIBLE
-        
-        if (fromAdapter) {
+
             adapter.set(data)
             adapter.notifyDataSetChanged()
-        } else {
-            adapter.set(data)
-            adapter.notifyDataSetChanged()
-        }
+
     }
 
     private fun search() {
@@ -99,7 +95,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
             binding?.progress?.visibility = View.VISIBLE
             fromAdapter = false
             productList?.clear()
-            start = 1
+            start = 0
             if (text?.isEmpty() == true) {
                 adapter.set(null)
                 binding?.progress?.visibility = View.INVISIBLE
@@ -114,12 +110,10 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
     private fun observeData() {
         viewModel.getData.observe(viewLifecycleOwner, {
                 binding?.progress?.visibility = View.GONE
-                productList?.clear()
-                productList?.addAll(it?.data?.results!!)
+            
+                it?.data?.results?.let { it1 -> productList?.addAll(it1) }
                 bindRecyclerViewData(productList)
                 isLoading = false
-
-
         })
     }
 

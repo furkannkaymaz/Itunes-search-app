@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.furkan.tfkbcase.base.BaseLinearLayout
-import com.furkan.tfkbcase.utils.Callback
 import com.furkan.tfkbcase.databinding.CustomSearchBinding
 
 class SearchBar(context: Context, attrs: AttributeSet? = null) :

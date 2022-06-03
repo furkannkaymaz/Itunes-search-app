@@ -7,18 +7,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.furkan.tfkbcase.base.BaseAdapter
 import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.ItemSongBinding
+import com.furkan.tfkbcase.utils.WrapperTypeModel
 import com.furkan.tfkbcase.utils.extension.loadImage
 
-class MainAdapter( val itemClick: ((Result) -> Unit)?) : BaseAdapter<Result, MainAdapter.ViewHolder>() {
+class MainAdapter(private val itemClick: ((Result) -> Unit)?) : BaseAdapter<Result, MainAdapter.ViewHolder>() {
 
     override fun bindView(holder: ViewHolder, position: Int, item: Result) {
 
-        holder.binding.title.text = item.trackName
+        when (item.wrapperType) {
+            WrapperTypeModel.AUDIO_BOOK.code -> {
+                holder.binding.title.text = item.artistName
+            }
+            WrapperTypeModel.TRACK.code -> {
+                holder.binding.title.text = item.trackName
+            }
+        }
         item.artworkUrl100?.let { holder.binding.image.loadImage(it) }
 
         holder.binding.container.setOnClickListener {
 
             itemClick?.let { it1 -> it1(item) }
+
         }
 
     }
