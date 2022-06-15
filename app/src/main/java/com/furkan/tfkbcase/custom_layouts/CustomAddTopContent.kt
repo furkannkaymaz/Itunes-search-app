@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.FragmentActivity
 import com.furkan.tfkbcase.base.BaseLinearLayout
 import com.furkan.tfkbcase.databinding.CustomTopcontentBinding
 import kotlinx.android.synthetic.main.custom_topcontent.view.*
@@ -24,7 +23,7 @@ class CustomAddTopContent(context: Context, attrs: AttributeSet? = null) :
         binding.tvTitleHeader.text = text
     }
 
-    fun backButtonVisible(isVisible : Boolean, activity : FragmentActivity){
+    fun backButtonVisible(isVisible: Boolean){
         if (isVisible){
             ivBack.visibility = View.VISIBLE
         }else{

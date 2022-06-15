@@ -19,12 +19,15 @@ class MainViewModel @Inject constructor(private val dataRepository: SongsRepo) :
         get() = _getData
 
     fun getData(searchQuery: String, offset: Int, limit: Int) = viewModelScope.launch {
+
         val response = dataRepository.getData(searchQuery, offset, limit)
+
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
-                _getData.postValue(Resource.Success(resultResponse))
+                _getData.postValue((Resource.Success(resultResponse)))
             }
         }
 
     }
+
 }

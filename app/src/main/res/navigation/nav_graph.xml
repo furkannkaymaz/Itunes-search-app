@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_mainFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
-        <argument
-            android:name="detailData"
-            app:argType="com.furkan.tfkbcase.data.model.Result"/>
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
@@ -25,6 +22,9 @@
         <action
             android:id="@+id/action_detailFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <argument
+            android:name="detailData"
+            app:argType="com.furkan.tfkbcase.data.model.Result"/>
     </fragment>
 
 </navigation>

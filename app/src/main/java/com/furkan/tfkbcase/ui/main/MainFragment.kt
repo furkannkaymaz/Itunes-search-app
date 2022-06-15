@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +14,7 @@ import com.furkan.tfkbcase.R
 import com.furkan.tfkbcase.base.BaseFragment
 import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.MainFragmentBinding
+import com.furkan.tfkbcase.ui.detail.DetailFragmentArgs
 import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +32,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         sendAdapterData()
         configureUiItems()
         pagingRecyclerView()
@@ -40,12 +39,13 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         search()
         configureTopMenu()
 
+
     }
 
     private fun configureTopMenu() {
 
         binding?.contentTop?.setText(getString(R.string.musicList))
-        binding?.contentTop?.backButtonVisible(false,requireActivity())
+        binding?.contentTop?.backButtonVisible(false)
 
     }
 
@@ -83,8 +83,8 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         binding?.error?.visibility = View.INVISIBLE
         binding?.rycView?.visibility = View.VISIBLE
 
-            adapter.set(data)
-            adapter.notifyDataSetChanged()
+        adapter.set(data)
+        adapter.notifyDataSetChanged()
 
     }
 
@@ -107,11 +107,12 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     private fun observeData() {
         viewModel.getData.observe(viewLifecycleOwner, {
-                binding?.progress?.visibility = View.GONE
-                it?.data?.results?.let { it1 -> productList?.addAll(it1) }
-                bindRecyclerViewData(productList)
-                isLoading = false
+            binding?.progress?.visibility = View.GONE
+            it?.data?.results?.let { it1 -> productList?.addAll(it1) }
+            bindRecyclerViewData(productList)
+            isLoading = false
         })
+
     }
 
     override fun layoutResource(
@@ -123,9 +124,13 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     private fun goDetailPage(data: Result) {
         val navController = findNavController(requireActivity(), R.id.main)
-        val bundle = Bundle()
-        bundle.putSerializable("data", data)
-        navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+        // val bundle = Bundle()
+        // bundle.putSerializable("data", data)
+        //  navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+        navController.navigate(
+            R.id.action_mainFragment_to_detailFragment,
+            DetailFragmentArgs(data).toBundle()
+        )
     }
 
     private fun sendAdapterData() {

@@ -27,7 +27,6 @@ abstract class BaseAdapter<Object, ViewHolder : RecyclerView.ViewHolder> : Recyc
     }
 
     override fun getItemCount(): Int {
-        Log.d("itemsize",this.items?.size.toString())
         return this.items?.size ?: 0
     }
 
