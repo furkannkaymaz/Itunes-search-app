@@ -1,5 +1,6 @@
 # Itunes-search-app
 
+#### Project build with ↓
 ###### MVVM - Live Data 
 ###### Dagger - Hilt
 ###### Retrofit - OkHttp
