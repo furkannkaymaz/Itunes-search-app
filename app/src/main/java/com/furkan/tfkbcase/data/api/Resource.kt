@@ -2,11 +2,11 @@ package com.furkan.tfkbcase.data.api
 
 sealed class Resource<T>(
     val data: T? = null,
-    val message: String? = null
+    val message: String? = null,
+    val networkError: Boolean? = null
 ) {
     class Success<T>(data: T): Resource<T>(data)
-    class Error<T>(message: String, data: T? = null): Resource<T>(data, message)
-    class Loading<T> : Resource<T>()
+    class Error<T>(message: String, data: T? = null,networkError: Boolean): Resource<T>(data,message,networkError)
 
     // for using error or loading
 }

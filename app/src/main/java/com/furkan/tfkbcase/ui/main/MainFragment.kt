@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation.findNavController
@@ -29,7 +30,6 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
     private lateinit var adapter: MainAdapter
 
     override fun onCreateFinished() {
-
         sendAdapterData()
         search()
         pagingRecyclerView()
@@ -66,6 +66,10 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
             it?.data?.results?.let { it1 -> productList?.addAll(it1) }
             bindRecyclerViewData(productList)
             isLoading = false
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, {
+            Toast.makeText(requireContext(),"Bir hata oluştu",Toast.LENGTH_SHORT).show()
         })
     }
 
@@ -131,7 +135,5 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
             }
         }
     }
-
-
 
 }

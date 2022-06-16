@@ -18,16 +18,22 @@ class MainViewModel @Inject constructor(private val dataRepository: SongsRepo) :
     val getData: LiveData<Resource<SongModel>?>
         get() = _getData
 
+    private val _error : MutableLiveData<String> = MutableLiveData()
+    val error: LiveData<String>
+        get() = _error
+
     fun getData(searchQuery: String, offset: Int, limit: Int) = viewModelScope.launch {
 
         val response = dataRepository.getData(searchQuery, offset, limit)
 
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                _getData.postValue((Resource.Success(resultResponse)))
+        when(response){
+            is Resource.Success ->{
+             _getData.postValue(response.data!!)
+
+            }
+            is Resource.Error ->{
+                _error.postValue(response.message!!)
             }
         }
-
     }
-
 }

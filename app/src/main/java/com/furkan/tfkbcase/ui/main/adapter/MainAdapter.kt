@@ -13,7 +13,6 @@ import com.furkan.tfkbcase.utils.extension.loadImage
 class MainAdapter(private val itemClick: ((Result) -> Unit)?) : BaseAdapter<Result, MainAdapter.ViewHolder>() {
 
     override fun bindView(holder: ViewHolder, position: Int, item: Result) {
-
         when (item.wrapperType) {
             WrapperTypeModel.AUDIO_BOOK.code -> {
                 holder.binding.title.text = item.artistName

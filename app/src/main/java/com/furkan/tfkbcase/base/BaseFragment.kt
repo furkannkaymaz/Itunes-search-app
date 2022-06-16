@@ -15,7 +15,7 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel> : Fragment() {
 
     abstract val viewModel: VM
 
-    abstract fun observerData()
+    open fun observerData(){}
     abstract fun configureUiItems()
     abstract fun onCreateFinished()
 
