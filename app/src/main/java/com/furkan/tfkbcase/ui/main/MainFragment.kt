@@ -19,27 +19,65 @@ import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : BaseFragment<MainFragmentBinding>() {
+class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
 
-    private val viewModel: MainViewModel by viewModels()
-
+    override val viewModel by viewModels<MainViewModel>()
     private var start = 0
     private var isLoading = false
     private var texted = ""
     private var productList: ArrayList<Result?>? = arrayListOf()
     private lateinit var adapter: MainAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateFinished() {
 
         sendAdapterData()
-        configureUiItems()
-        pagingRecyclerView()
-        observeData()
         search()
+        pagingRecyclerView()
         configureTopMenu()
+    }
 
+    override fun layoutResource(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): MainFragmentBinding {
+        return MainFragmentBinding.inflate(inflater, container, false)
+    }
 
+    private fun goDetailPage(data: Result) {
+        val navController = findNavController(requireActivity(), R.id.main)
+        // val bundle = Bundle()
+        // bundle.putSerializable("data", data)
+        //  navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+        navController.navigate(
+            R.id.action_mainFragment_to_detailFragment,
+            DetailFragmentArgs(data).toBundle()
+        )
+    }
+
+    private fun sendAdapterData() {
+        adapter = MainAdapter {
+            goDetailPage(it)
+        }
+    }
+
+    override fun observerData() {
+        viewModel.getData.observe(viewLifecycleOwner, {
+            binding?.progress?.visibility = View.GONE
+            it?.data?.results?.let { it1 -> productList?.addAll(it1) }
+            bindRecyclerViewData(productList)
+            isLoading = false
+        })
+    }
+
+    override fun configureUiItems() {
+        binding?.rycView?.layoutManager = GridLayoutManager(
+            requireContext(),
+            2,
+            RecyclerView.VERTICAL,
+            false
+        )
+
+        binding?.rycView?.adapter = adapter
     }
 
     private fun configureTopMenu() {
@@ -64,17 +102,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
                 }
             }
         })
-    }
-
-    private fun configureUiItems() {
-        binding?.rycView?.layoutManager = GridLayoutManager(
-            requireContext(),
-            2,
-            RecyclerView.VERTICAL,
-            false
-        )
-
-        binding?.rycView?.adapter = adapter
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -105,38 +132,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         }
     }
 
-    private fun observeData() {
-        viewModel.getData.observe(viewLifecycleOwner, {
-            binding?.progress?.visibility = View.GONE
-            it?.data?.results?.let { it1 -> productList?.addAll(it1) }
-            bindRecyclerViewData(productList)
-            isLoading = false
-        })
 
-    }
-
-    override fun layoutResource(
-        inflater: LayoutInflater,
-        container: ViewGroup?
-    ): MainFragmentBinding {
-        return MainFragmentBinding.inflate(inflater, container, false)
-    }
-
-    private fun goDetailPage(data: Result) {
-        val navController = findNavController(requireActivity(), R.id.main)
-        // val bundle = Bundle()
-        // bundle.putSerializable("data", data)
-        //  navController.navigate(R.id.action_mainFragment_to_detailFragment, bundle)
-        navController.navigate(
-            R.id.action_mainFragment_to_detailFragment,
-            DetailFragmentArgs(data).toBundle()
-        )
-    }
-
-    private fun sendAdapterData() {
-        adapter = MainAdapter {
-            goDetailPage(it)
-        }
-    }
 
 }
