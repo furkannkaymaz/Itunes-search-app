@@ -4,7 +4,7 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun formatDate(source: String): String {
+ fun formatDate(source: String): String {
 
     // 2016-09-02T07:00:00Z
 

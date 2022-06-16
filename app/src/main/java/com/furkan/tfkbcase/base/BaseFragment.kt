@@ -11,6 +11,7 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
 
     private var _binding: VB? = null
     val binding get() = _binding
+
     abstract fun layoutResource(inflater: LayoutInflater, container: ViewGroup?): VB
 
     override fun onCreateView(
@@ -21,7 +22,6 @@ abstract class BaseFragment<VB: ViewBinding> : Fragment() {
         _binding = layoutResource(inflater, container)
         return binding?.root
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
