@@ -104,4 +104,7 @@ dependencies {
 
     // Paging 3
     implementation "androidx.paging:paging-runtime:3.0.0-alpha05"
+
+    // splash
+    implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 }

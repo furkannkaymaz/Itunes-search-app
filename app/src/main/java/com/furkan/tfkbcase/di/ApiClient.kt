@@ -13,7 +13,6 @@ import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiClient {
