@@ -5,10 +5,10 @@ import androidx.room.*
 @Dao
 interface SongDao {
     @Insert
-    fun addBook(song: Songs)
+    fun addSong(song: Songs)
 
     @Query("SELECT * FROM song_table ORDER BY artistId DESC")
-    fun getAllBook(): List<Songs>
+    fun getAllSong(): List<Songs>
 
     @Update
     fun update(song: Songs)

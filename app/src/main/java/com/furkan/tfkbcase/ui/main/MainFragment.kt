@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.furkan.tfkbcase.R
 import com.furkan.tfkbcase.base.BaseFragment
+import com.furkan.tfkbcase.data.local.SongDataBase
+import com.furkan.tfkbcase.data.local.Songs
 import com.furkan.tfkbcase.data.model.Result
 import com.furkan.tfkbcase.databinding.MainFragmentBinding
 import com.furkan.tfkbcase.ui.detail.DetailFragmentArgs
@@ -29,11 +31,15 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
     private var productList: ArrayList<Result?>? = arrayListOf()
     private lateinit var adapter: MainAdapter
 
+    private lateinit var songDataBase: SongDataBase
+
     override fun onCreateFinished() {
         sendAdapterData()
         search()
         pagingRecyclerView()
         configureTopMenu()
+
+        songDataBase = SongDataBase.getBookDatabase(requireContext())!!
     }
 
     override fun layoutResource(
@@ -66,6 +72,11 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
             it?.results?.let { it1 -> productList?.addAll(it1) }
             bindRecyclerViewData(productList)
             isLoading = false
+
+            for (item in it?.results!!){
+                songDataBase.getSongDao().addSong(Songs(item.trackName.toString(), item.artistName.toString()))
+            }
+
         })
 
         viewModel.error.observe(viewLifecycleOwner, {

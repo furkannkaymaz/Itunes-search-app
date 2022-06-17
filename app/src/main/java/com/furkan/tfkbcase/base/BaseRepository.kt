@@ -17,7 +17,10 @@ abstract class BaseRepository {
                     is HttpException ->{
                         Resource.Error("Hata",null,false) // api faill
                     }
-                    else ->  Resource.Error("Hata",null,true) // network error
+                    else -> { Resource.Error("Hata",null,true)
+
+
+                    } // network error
                 }
             }
         }

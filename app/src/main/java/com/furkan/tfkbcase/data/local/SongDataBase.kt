@@ -11,7 +11,7 @@ import androidx.room.RoomDatabase
 )
 abstract class SongDataBase: RoomDatabase() {
 
-    abstract fun getBookDao(): SongDao
+    abstract fun getSongDao(): SongDao
 
     companion object{
         private var instance: SongDataBase? = null
