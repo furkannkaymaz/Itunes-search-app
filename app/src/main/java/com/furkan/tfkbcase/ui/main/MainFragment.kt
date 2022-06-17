@@ -63,7 +63,7 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
     override fun observerData() {
         viewModel.getData.observe(viewLifecycleOwner, {
             binding?.progress?.visibility = View.GONE
-            it?.data?.results?.let { it1 -> productList?.addAll(it1) }
+            it?.results?.let { it1 -> productList?.addAll(it1) }
             bindRecyclerViewData(productList)
             isLoading = false
         })

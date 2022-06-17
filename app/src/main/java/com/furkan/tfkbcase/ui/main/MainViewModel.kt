@@ -1,5 +1,6 @@
 package com.furkan.tfkbcase.ui.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val dataRepository: SongsRepo) : ViewModel() {
 
-    private val _getData: MutableLiveData<Resource<SongModel>> = MutableLiveData()
-    val getData: LiveData<Resource<SongModel>?>
+    private val _getData: MutableLiveData<SongModel> = MutableLiveData()
+    val getData: LiveData<SongModel?>
         get() = _getData
 
     private val _error : MutableLiveData<String> = MutableLiveData()
@@ -28,7 +29,7 @@ class MainViewModel @Inject constructor(private val dataRepository: SongsRepo) :
 
         when(response){
             is Resource.Success ->{
-             _getData.postValue(response.data!!)
+                _getData.postValue(response.data!!)
 
             }
             is Resource.Error ->{
