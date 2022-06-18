@@ -1,11 +1,11 @@
 package com.furkan.tfkbcase.ui.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.furkan.tfkbcase.data.api.Resource
+import com.furkan.tfkbcase.data.local.Songs
 import com.furkan.tfkbcase.data.model.SongModel
 import com.furkan.tfkbcase.data.repository.SongsRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,7 @@ class MainViewModel @Inject constructor(private val dataRepository: SongsRepo) :
     val getData: LiveData<SongModel?>
         get() = _getData
 
-    private val _error : MutableLiveData<String> = MutableLiveData()
+    private val _error: MutableLiveData<String> = MutableLiveData()
     val error: LiveData<String>
         get() = _error
 
@@ -27,14 +27,22 @@ class MainViewModel @Inject constructor(private val dataRepository: SongsRepo) :
 
         val response = dataRepository.getData(searchQuery, offset, limit)
 
-        when(response){
-            is Resource.Success ->{
+        when (response) {
+            is Resource.Success -> {
                 _getData.postValue(response.data!!)
 
             }
-            is Resource.Error ->{
+            is Resource.Error -> {
                 _error.postValue(response.message!!)
             }
         }
     }
+
+    suspend fun addSong(song: Songs) {
+        viewModelScope.launch {
+            dataRepository.insertSong(song)
+        }
+    }
+
+
 }

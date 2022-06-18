@@ -13,16 +13,4 @@ abstract class SongDataBase: RoomDatabase() {
 
     abstract fun getSongDao(): SongDao
 
-    companion object{
-        private var instance: SongDataBase? = null
-
-        fun getBookDatabase(context: Context): SongDataBase?{
-            if (instance == null){
-                instance = Room.databaseBuilder(context,
-                    SongDataBase::class.java,
-                    "book.db").allowMainThreadQueries().build()
-            }
-            return instance
-        }
-    }
 }

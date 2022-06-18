@@ -108,8 +108,7 @@ dependencies {
     // splash
     implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 
-    def room_version = "2.2.6"
 
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation 'androidx.room:room-ktx:2.2.6'
+    kapt "androidx.room:room-compiler:2.2.6"
 }

@@ -4,19 +4,20 @@ import androidx.room.*
 
 @Dao
 interface SongDao {
-    @Insert
-    fun addSong(song: Songs)
 
     @Query("SELECT * FROM song_table ORDER BY artistId DESC")
     fun getAllSong(): List<Songs>
 
+    @Insert
+    suspend fun addSong(song: Songs)
+
     @Update
-    fun update(song: Songs)
+    suspend fun update(song: Songs)
 
     @Delete
-    fun delete(song: Songs)
+    suspend fun delete(song: Songs)
 
     @Query("DELETE FROM song_table")
-    fun deleteAll()
+     fun deleteAll()
 
 }

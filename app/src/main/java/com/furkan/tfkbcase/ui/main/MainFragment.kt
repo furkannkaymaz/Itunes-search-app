@@ -20,6 +20,9 @@ import com.furkan.tfkbcase.databinding.MainFragmentBinding
 import com.furkan.tfkbcase.ui.detail.DetailFragmentArgs
 import com.furkan.tfkbcase.ui.main.adapter.MainAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
@@ -31,7 +34,6 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
     private var productList: ArrayList<Result?>? = arrayListOf()
     private lateinit var adapter: MainAdapter
 
-    private lateinit var songDataBase: SongDataBase
 
     override fun onCreateFinished() {
         sendAdapterData()
@@ -39,7 +41,6 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
         pagingRecyclerView()
         configureTopMenu()
 
-        songDataBase = SongDataBase.getBookDatabase(requireContext())!!
     }
 
     override fun layoutResource(
@@ -73,10 +74,16 @@ class MainFragment : BaseFragment<MainFragmentBinding,MainViewModel>() {
             bindRecyclerViewData(productList)
             isLoading = false
 
-            for (item in it?.results!!){
-                songDataBase.getSongDao().addSong(Songs(item.trackName.toString(), item.artistName.toString()))
-            }
-
+         for (item in it?.results!!){
+          //   songDataBase.getSongDao().addSong(Songs(item.trackName.toString(), item.artistName.toString()))
+             CoroutineScope(Dispatchers.IO).launch {
+                 item.trackName?.let { it1 -> Songs(it1,item.artistName!!) }?.let { it2 ->
+                     viewModel.addSong(
+                         it2
+                     )
+                 }
+             }
+         }
         })
 
         viewModel.error.observe(viewLifecycleOwner, {
